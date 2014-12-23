@@ -20,6 +20,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private Button butChatNow;
     //URL for App Links
     private final String TWNEL_URL="http://twnel.com";
+    private final String TWNEL_PLAY_STORE_URL="market://details?id=com.twnel.android&referrer=easytaxi";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                                     startActivity(intent);
                                 //Twnel App not installed(now we redirect to play store)
                                 } else {
-                                    //todo start navigation to web browser with play store url and campaign parameters
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(TWNEL_PLAY_STORE_URL));
+                                    startActivity(browserIntent);
                                 }
                                 return null;
                             }
