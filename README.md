@@ -10,7 +10,8 @@ App Links SDK  for Android
 
 http://boltsframework.github.io/docs/android/ 
 
-add to your build.gradle 
+Add the following line to your 'build.gradle' file
+
 ```groovy
 compile 'com.parse.bolts:bolts-android:1.1.4'
 ```
