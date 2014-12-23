@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
     /**
      * Method to navigate to Twnel App
-     * @param companyId company identification in Twnel Service
+     * @param companyId company identifier in Twnel Service
      */
     private void navigateToChat(final String companyId){
         new WebViewAppLinkResolver(this)
