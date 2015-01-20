@@ -20,7 +20,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private Button butChatNow;
     //URL for App Links
     private final String TWNEL_URL="http://twnel.com";
-    private final String TWNEL_PLAY_STORE_URL="market://details?id=com.twnel.android&referrer=";
+    private final String TWNEL_PLAY_STORE_URL="market://details?id=com.twnel.android&referrer=utm_source%3Deasytaxi%26utm_medium%3Dapplinks";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
