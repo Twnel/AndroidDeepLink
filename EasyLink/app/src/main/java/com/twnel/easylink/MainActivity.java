@@ -59,6 +59,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                                     extras.putString("app_link_jid", companyId);
                                     //Extras for detect in Twnel App if starting from App Link
                                     intent.putExtra("al_applink_data", extras);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
                                 //Twnel App not installed(now we redirect to play store)
                                 } else {
