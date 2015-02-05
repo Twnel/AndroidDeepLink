@@ -17,10 +17,13 @@ import bolts.WebViewAppLinkResolver;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener{
+    public static final String APP_LINK_JID = "app_link_jid";
+    public static final String APP_PACKAGE_NAME = "app_package_name";
+    public static final String APP_ACTIVITY_NAME = "app_activity_name";
     private Button butChatNow;
     //URL for App Links
     private final String TWNEL_URL="http://twnel.com";
-    private final String TWNEL_PLAY_STORE_URL="market://details?id=com.twnel.android&referrer=utm_source%3D";
+    private final String TWNEL_PLAY_STORE_URL="market://details?id=com.twnel.android&referrer=";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +36,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
      * Method to navigate to Twnel App
      * @param companyId company identifier in Twnel Service
      */
-    private void navigateToChat(final String companyId){
+    private void navigateToChat(final String companyId,final String originPackageName,final String originActivityClassName){
         new WebViewAppLinkResolver(this)
                 .getAppLinkFromUrlInBackground(Uri.parse(TWNEL_URL))
                 .continueWith(
@@ -42,25 +45,24 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                             public AppLinkNavigation.NavigationResult then(
                                     Task<AppLink> task) {
                                 AppLink link = task.getResult();
-
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
+                                Intent intent = new Intent();
                                 AppLink.Target target = link.getTargets().get(0);
-                                intent.setPackage(target.getPackageName());
-                                intent.setData(link.getSourceUrl());
-
-                                //lookup to detect if Twnel App is available to resolve intent
+                                intent.setClassName(target.getPackageName(),target.getClassName());
                                 ResolveInfo resolveInfo = getPackageManager()
                                         .resolveActivity(intent,
                                                 PackageManager.MATCH_DEFAULT_ONLY);
                                 //Twnel App installed
                                 if (resolveInfo != null) {
                                     Bundle extras = new Bundle();
-                                    //company Id
-                                    extras.putString("app_link_jid", companyId);
+                                    //company Id, package name and activity class name
+                                    extras.putString(APP_LINK_JID, companyId);
+                                    extras.putString(APP_PACKAGE_NAME, originPackageName);
+                                    extras.putString(APP_ACTIVITY_NAME, originActivityClassName);
+
                                     //Extras for detect in Twnel App if starting from App Link
                                     intent.putExtra("al_applink_data", extras);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    startActivity(intent);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                     startActivity(intent);
                                 //Twnel App not installed(now we redirect to play store)
                                 } else {
                                     Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(TWNEL_PLAY_STORE_URL+companyId));
@@ -75,6 +77,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         //start navigation to easytaxi chat room in Twnel app
-        navigateToChat("easytaxi");
+        navigateToChat("easytaxi","com.twnel.easylink","com.twnel.easylink.MainActivity");
     }
 }
