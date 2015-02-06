@@ -1,7 +1,7 @@
 Easy-Link
 ==================
 
-Example for integration of Twnel with others apps. 
+Twnel integration example using App Links.
 
 
 Dependences 
