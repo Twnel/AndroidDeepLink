@@ -1,13 +1,11 @@
 package com.twnel.easylink;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.View;
-import android.widget.Button;
 
 import bolts.AppLink;
 import bolts.AppLinkNavigation;
@@ -15,29 +13,29 @@ import bolts.Continuation;
 import bolts.Task;
 import bolts.WebViewAppLinkResolver;
 
+/**
+ * Created by Yesid Lazaro on 2/6/15.
+ */
+public class Utils {
+    private static final String APP_LINK_JID = "app_link_jid";
+    private static final String APP_PACKAGE_NAME = "app_package_name";
+    private static final String APP_ACTIVITY_NAME = "app_activity_name";
+    private static final String AL_APPLINK_DATA = "al_applink_data";
 
-public class MainActivity extends ActionBarActivity implements View.OnClickListener{
-    public static final String APP_LINK_JID = "app_link_jid";
-    public static final String APP_PACKAGE_NAME = "app_package_name";
-    public static final String APP_ACTIVITY_NAME = "app_activity_name";
-    private Button butChatNow;
     //URL for App Links
-    private final String TWNEL_URL="http://twnel.com";
-    private final String TWNEL_PLAY_STORE_URL="market://details?id=com.twnel.android&referrer=";
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        butChatNow= (Button) findViewById(R.id.but_chat);
-        butChatNow.setOnClickListener(this);
-    }
+    private static final String TWNEL_URL = "http://twnel.com";
+    private static final String TWNEL_PLAY_STORE_URL = "market://details?id=com.twnel.android&referrer=";
 
     /**
-     * Method to navigate to Twnel App
-     * @param companyId company identifier in Twnel Service
+     * Method to navigate to chat room in Twnel App
+     *
+     * @param context
+     * @param companyId               example easytaxi
+     * @param originPackageName       A fully-qualified package name for intent generation
+     * @param originActivityClassName A fully-qualified Activity class name for intent generation
      */
-    private void navigateToChat(final String companyId,final String originPackageName,final String originActivityClassName){
-        new WebViewAppLinkResolver(this)
+    public static void navigateToChat(final Context context, final String companyId, final String originPackageName, final String originActivityClassName) {
+        new WebViewAppLinkResolver(context)
                 .getAppLinkFromUrlInBackground(Uri.parse(TWNEL_URL))
                 .continueWith(
                         new Continuation<AppLink, AppLinkNavigation.NavigationResult>() {
@@ -47,8 +45,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                                 AppLink link = task.getResult();
                                 Intent intent = new Intent();
                                 AppLink.Target target = link.getTargets().get(0);
-                                intent.setClassName(target.getPackageName(),target.getClassName());
-                                ResolveInfo resolveInfo = getPackageManager()
+                                intent.setClassName(target.getPackageName(), target.getClassName());
+                                ResolveInfo resolveInfo = context.getPackageManager()
                                         .resolveActivity(intent,
                                                 PackageManager.MATCH_DEFAULT_ONLY);
                                 //Twnel App installed
@@ -60,23 +58,17 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                                     extras.putString(APP_ACTIVITY_NAME, originActivityClassName);
 
                                     //Extras for detect in Twnel App if starting from App Link
-                                    intent.putExtra("al_applink_data", extras);
+                                    intent.putExtra(AL_APPLINK_DATA, extras);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                     startActivity(intent);
-                                //Twnel App not installed(now we redirect to play store)
+                                    context.startActivity(intent);
+                                    //Twnel App not installed(now we redirect to play store)
                                 } else {
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(TWNEL_PLAY_STORE_URL+companyId));
-                                    startActivity(browserIntent);
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(TWNEL_PLAY_STORE_URL + companyId));
+                                    context.startActivity(browserIntent);
                                 }
                                 return null;
                             }
                         }
                 );
-    }
-
-    @Override
-    public void onClick(View v) {
-        //start navigation to easytaxi chat room in Twnel app
-        navigateToChat("easytaxi","com.twnel.easylink","com.twnel.easylink.MainActivity");
     }
 }
