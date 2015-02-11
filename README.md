@@ -32,7 +32,7 @@ call  navigateToChat method in TwnelUtils.java from your activity or fragment
 
 
  	//example 
- 	 Utils.navigateToChat(MainActivity.this,"easytaxi", "com.twnel.easylink", "EASYTAXI", "com.twnel.easylink.MainActivity");
+ 	 Utils.navigateToChat(MainActivity.this,"easytaxi","EASYTAXI", "com.twnel.easylink", "com.twnel.easylink.MainActivity");
 
 
 ```
