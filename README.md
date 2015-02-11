@@ -25,6 +25,7 @@ call  navigateToChat method in TwnelUtils.java from your activity or fragment
      *
      * @param context
      * @param companyId               example easytaxi
+     * @param invitationCode          a valid invitation code for your company
      * @param originPackageName       A fully-qualified package name for intent generation (for back your app)
      * @param originActivityClassName A fully-qualified Activity class name for intent generation (for back your app)
      */
