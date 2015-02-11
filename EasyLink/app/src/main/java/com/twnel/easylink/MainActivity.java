@@ -20,6 +20,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         //start navigation to easytaxi chat room in Twnel app
-        Utils.navigateToChat(MainActivity.this,"easytaxi", "com.twnel.easylink", "com.twnel.easylink.MainActivity");
+        TwnelUtils.navigateToChat(MainActivity.this, "easytaxi", "EASYTAXI", "com.twnel.easylink", "com.twnel.easylink.MainActivity");
     }
 }

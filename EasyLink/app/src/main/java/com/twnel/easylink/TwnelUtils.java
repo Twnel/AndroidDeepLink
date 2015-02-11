@@ -7,6 +7,9 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import bolts.AppLink;
 import bolts.AppLinkNavigation;
 import bolts.Continuation;
@@ -16,7 +19,7 @@ import bolts.WebViewAppLinkResolver;
 /**
  * Created by Yesid Lazaro on 2/6/15.
  */
-public class Utils {
+public class TwnelUtils {
     private static final String APP_LINK_JID = "app_link_jid";
     private static final String APP_PACKAGE_NAME = "app_package_name";
     private static final String APP_ACTIVITY_NAME = "app_activity_name";
@@ -25,6 +28,8 @@ public class Utils {
     //URL for App Links
     private static final String TWNEL_URL = "http://twnel.com";
     private static final String TWNEL_PLAY_STORE_URL = "market://details?id=com.twnel.android&referrer=";
+    public static final String COMPANY_ID = "companyId";
+    public static final String INVITATION_CODE = "invitationCode";
 
     /**
      * Method to navigate to chat room in Twnel App
@@ -34,7 +39,7 @@ public class Utils {
      * @param originPackageName       A fully-qualified package name for intent generation
      * @param originActivityClassName A fully-qualified Activity class name for intent generation
      */
-    public static void navigateToChat(final Context context, final String companyId, final String originPackageName, final String originActivityClassName) {
+    public static void navigateToChat(final Context context, final String companyId,final String invitationCode, final String originPackageName, final String originActivityClassName) {
         new WebViewAppLinkResolver(context)
                 .getAppLinkFromUrlInBackground(Uri.parse(TWNEL_URL))
                 .continueWith(
@@ -63,12 +68,25 @@ public class Utils {
                                     context.startActivity(intent);
                                     //Twnel App not installed(now we redirect to play store)
                                 } else {
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(TWNEL_PLAY_STORE_URL + companyId));
-                                    context.startActivity(browserIntent);
+                                    Intent browserIntent = null;
+                                    try {
+                                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(TWNEL_PLAY_STORE_URL + buildReferrerJSONString(companyId, invitationCode)));
+                                        context.startActivity(browserIntent);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                                 return null;
                             }
                         }
                 );
+    }
+
+
+    public static String buildReferrerJSONString(String companyId, String invitationCode) throws JSONException {
+        JSONObject referrerJSON = new JSONObject();
+        referrerJSON.put(COMPANY_ID, companyId);
+        referrerJSON.put(INVITATION_CODE, invitationCode);
+        return referrerJSON.toString();
     }
 }
