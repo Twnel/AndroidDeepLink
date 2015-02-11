@@ -16,7 +16,7 @@ Add the following line to your 'build.gradle' file
 compile 'com.parse.bolts:bolts-android:1.1.4'
 ```
 
-call  navigateToChat method in Utils.java from your activity or fragment 
+call  navigateToChat method in TwnelUtils.java from your activity or fragment 
 
 ```java
 
@@ -28,11 +28,11 @@ call  navigateToChat method in Utils.java from your activity or fragment
      * @param originPackageName       A fully-qualified package name for intent generation (for back your app)
      * @param originActivityClassName A fully-qualified Activity class name for intent generation (for back your app)
      */
-     public static void navigateToChat( Context context,  String companyId,  String originPackageName, String originActivityClassName) 
+     public static void navigateToChat( Context context,  String companyId,String invitationCode, String originPackageName, String originActivityClassName) 
 
 
  	//example 
- 	 Utils.navigateToChat(MainActivity.this,"easytaxi", "com.twnel.easylink", "com.twnel.easylink.MainActivity");
+ 	 Utils.navigateToChat(MainActivity.this,"easytaxi", "com.twnel.easylink", "EASYTAXI", "com.twnel.easylink.MainActivity");
 
 
 ```
