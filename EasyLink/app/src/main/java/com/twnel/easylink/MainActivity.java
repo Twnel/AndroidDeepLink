@@ -22,6 +22,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         //start navigation to easytaxi chat room in Twnel app
         TwnelUtils.navigateToChat(MainActivity.this, "easytaxi", "EASYTAXI", "com.twnel.easylink", "com.twnel.easylink.MainActivity",true,"Chatea gratis descargando Twnel","1.) Da click en \"Siguiente\".\n" +
                 "2.) Inicia Descarga Twnel en PlayStore\n" +
-                "3.) Comunicate gratis con la central Easy Taxi 24 horas al dias 7 dias a la semana.");
+                "3.) Comunicate gratis con la central Easy Taxi 24 horas al dias 7 dias a la semana.","Siguiente");
     }
 }

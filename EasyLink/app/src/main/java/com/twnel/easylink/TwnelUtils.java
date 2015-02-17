@@ -36,13 +36,17 @@ public class TwnelUtils {
 
     /**
      * Method to navigate to chat room in Twnel App
-     *
      * @param context
-     * @param companyId               example easytaxi
-     * @param originPackageName       A fully-qualified package name for intent generation
-     * @param originActivityClassName A fully-qualified Activity class name for intent generation
+     * @param companyId  the valid companyId
+     * @param invitationCode a valid invitation code for your company
+     * @param originPackageName  A fully-qualified package name for intent generation (for back your app)
+     * @param originActivityClassName A fully-qualified Activity class name for intent generation (for back your app)
+     * @param showAlertDialog  set true for show a alert dialog before navigate to play Store to download Twnel App if it is not installed
+     * @param alertTitle  the title for the alert dialog if  "showAlertDialog" is true
+     * @param alertSubject the subject for the alert dialog if  "showAlertDialog" is true
+     * @param nextButtonText text for "next" button  in the alert dialog if  "showAlertDialog" is true
      */
-    public static void navigateToChat(final Context context, final String companyId, final String invitationCode, final String originPackageName, final String originActivityClassName, final boolean showAlertDialog, final String alertTitle, final String alertSubject) {
+    public static void navigateToChat(final Context context, final String companyId, final String invitationCode, final String originPackageName, final String originActivityClassName, final boolean showAlertDialog, final String alertTitle, final String alertSubject,final String nextButtonText) {
         new WebViewAppLinkResolver(context)
                 .getAppLinkFromUrlInBackground(Uri.parse(TWNEL_URL))
                 .continueWith(
@@ -75,7 +79,7 @@ public class TwnelUtils {
                                         if (TextUtils.isEmpty(alertTitle) || TextUtils.isEmpty(alertSubject)) {
                                             throw new IllegalArgumentException("please set a title and a subject for the alert");
                                         } else {
-                                            showAlertDialog(context, alertTitle, alertSubject, companyId, invitationCode);
+                                            showAlertDialog(context, alertTitle, alertSubject,nextButtonText, companyId, invitationCode);
                                         }
                                     } else {
                                         Intent browserIntent = null;
@@ -102,12 +106,12 @@ public class TwnelUtils {
     }
 
 
-    public static void showAlertDialog(final Context context, String title, String subject, final String companyId, final String companyInvitationCode) {
+    public static void showAlertDialog(final Context context, String title, String subject,String nextButtonText, final String companyId, final String companyInvitationCode) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                 context);
         alertDialog.setTitle(title);
         alertDialog.setMessage(subject);
-        alertDialog.setPositiveButton("Siguiente", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton(nextButtonText, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 Intent browserIntent = null;
                 try {
