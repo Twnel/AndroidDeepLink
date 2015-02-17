@@ -1,4 +1,4 @@
-Easy-Link
+Android DeepLink
 ==================
 
 Twnel integration example using App Links.
