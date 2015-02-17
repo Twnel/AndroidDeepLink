@@ -18,7 +18,7 @@ compile 'com.parse.bolts:bolts-android:1.1.4'
 or if you are using eclipse download the .jar and copy to the "libs" folder
 http://search.maven.org/#browse%7C1700048106
 
-2) Copy TwnelUtils.java to your project and call navigateToChat method in TwnelUtils.java from your activity or fragment 
+2) Copy TwnelUtils.java to your project and call navigateToChat method from your activity or fragment 
 
 ```java
 
