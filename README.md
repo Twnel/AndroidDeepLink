@@ -25,16 +25,16 @@ http://search.maven.org/#browse%7C1700048106
 ```java
 
     /**
-     * Method to navigate to chat room in Twnel App
+     * Navigate to the chat room inside Twnel.
      * @param context
-     * @param companyId  the valid companyId
-     * @param invitationCode a valid invitation code for your company
-     * @param originPackageName  A fully-qualified package name for intent generation (for back your app)
-     * @param originActivityClassName A fully-qualified Activity class name for intent generation (for back your app)
-     * @param showAlertDialog  set true for show a alert dialog before navigate to play Store to download Twnel App if it is not installed
-     * @param alertTitle  the title for the alert dialog if  "showAlertDialog" is true
-     * @param alertSubject the subject for the alert dialog if  "showAlertDialog" is true
-     * @param nextButtonText text for "next" button  in the alert dialog if  "showAlertDialog" is true
+     * @param companyId: The company identifier inside Twnel.
+     * @param invitationCode: A valid invitation code for your company.
+     * @param originPackageName: A fully-qualified package name for intent generation (used to return to your app).
+     * @param originActivityClassName: A fully-qualified Activity class name for intent generation (used to return to your app).
+     * @param showAlertDialog: True if you want to show an alert dialog before navigating to the Play Store to download Twnel, when the app is not installed.
+     * @param alertTitle: The title of the alert dialog displayed when "showAlertDialog" is true.
+     * @param alertSubject: The subject of the alert dialog displayed when "showAlertDialog" is true.
+     * @param nextButtonText: The text for the "next" button used in the alert dialog when "showAlertDialog" is true.
      */
       public static void navigateToChat(Context context,String companyId,String invitationCode, String originPackageName, String originActivityClassName,  boolean showAlertDialog, String alertTitle,String alertSubject,String nextButtonText) {
  	
