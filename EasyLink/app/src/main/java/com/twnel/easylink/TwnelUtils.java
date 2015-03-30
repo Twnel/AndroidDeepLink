@@ -10,9 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import bolts.AppLink;
 import bolts.AppLinkNavigation;
 import bolts.Continuation;
@@ -30,15 +27,13 @@ public class TwnelUtils {
 
     //URL for App Links
     private static final String TWNEL_URL = "http://twnel.com";
-    private static final String TWNEL_PLAY_STORE_URL = "market://details?id=com.twnel.android&referrer=";
+    private static final String INSTALLATION_LINK = "http://twnl.co/";
     public static final String COMPANY_ID = "companyId";
-    public static final String INVITATION_CODE = "invitationCode";
 
     /**
      * Method to navigate to chat room in Twnel App
      * @param context
      * @param companyId  the valid companyId
-     * @param invitationCode a valid invitation code for your company
      * @param originPackageName  A fully-qualified package name for intent generation (for back your app)
      * @param originActivityClassName A fully-qualified Activity class name for intent generation (for back your app)
      * @param showAlertDialog  set true for show a alert dialog before navigate to play Store to download Twnel App if it is not installed
@@ -46,7 +41,7 @@ public class TwnelUtils {
      * @param alertSubject the subject for the alert dialog if  "showAlertDialog" is true
      * @param nextButtonText text for "next" button  in the alert dialog if  "showAlertDialog" is true
      */
-    public static void navigateToChat(final Context context, final String companyId, final String invitationCode, final String originPackageName, final String originActivityClassName, final boolean showAlertDialog, final String alertTitle, final String alertSubject,final String nextButtonText) {
+    public static void navigateToChat(final Context context, final String companyId, final String originPackageName, final String originActivityClassName, final boolean showAlertDialog, final String alertTitle, final String alertSubject,final String nextButtonText) {
         new WebViewAppLinkResolver(context)
                 .getAppLinkFromUrlInBackground(Uri.parse(TWNEL_URL))
                 .continueWith(
@@ -79,16 +74,12 @@ public class TwnelUtils {
                                         if (TextUtils.isEmpty(alertTitle) || TextUtils.isEmpty(alertSubject)) {
                                             throw new IllegalArgumentException("please set a title and a subject for the alert");
                                         } else {
-                                            showAlertDialog(context, alertTitle, alertSubject,nextButtonText, companyId, invitationCode);
+                                            showAlertDialog(context, alertTitle, alertSubject,nextButtonText, companyId);
                                         }
                                     } else {
                                         Intent browserIntent = null;
-                                        try {
-                                            browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(TWNEL_PLAY_STORE_URL + buildReferrerJSONString(companyId, invitationCode)));
-                                            context.startActivity(browserIntent);
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
+                                        browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(INSTALLATION_LINK + companyId));
+                                        context.startActivity(browserIntent);
                                     }
                                 }
                                 return null;
@@ -98,29 +89,15 @@ public class TwnelUtils {
     }
 
 
-    public static String buildReferrerJSONString(String companyId, String invitationCode) throws JSONException {
-        JSONObject referrerJSON = new JSONObject();
-        referrerJSON.put(COMPANY_ID, companyId);
-        referrerJSON.put(INVITATION_CODE, invitationCode);
-        return referrerJSON.toString();
-    }
-
-
-    public static void showAlertDialog(final Context context, String title, String subject,String nextButtonText, final String companyId, final String companyInvitationCode) {
+    public static void showAlertDialog(final Context context, String title, String subject,String nextButtonText, final String companyId) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(
                 context);
         alertDialog.setTitle(title);
         alertDialog.setMessage(subject);
         alertDialog.setPositiveButton(nextButtonText, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                Intent browserIntent = null;
-                try {
-
-                    browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(TWNEL_PLAY_STORE_URL + buildReferrerJSONString(companyId, companyInvitationCode)));
-                    context.startActivity(browserIntent);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(INSTALLATION_LINK + companyId));
+                context.startActivity(browserIntent);
             }
         });
         // Showing Alert Message
