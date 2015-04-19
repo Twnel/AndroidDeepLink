@@ -13,7 +13,7 @@ http://boltsframework.github.io/docs/android/
 1) Add the following line to your 'build.gradle' file
 
 ```groovy
-compile 'com.parse.bolts:bolts-android:1.1.4'
+compile 'com.parse.bolts:bolts-android:1.2.0'
 ```
 or if you are using eclipse download the .jar and copy to the "libs" folder
 http://search.maven.org/#browse%7C1700048106
