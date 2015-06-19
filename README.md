@@ -45,7 +45,7 @@ http://search.maven.org/#browse%7C1700048106
 
 
 ```
-4) add ``` android:exported="true"``` to your activity (originActivityClassName)
+4) add ``` android:exported="true"``` to your activity (originActivityClassName) in the AndroidManifest.xml
 About App Links 
 ==================
 http://applinks.org/
